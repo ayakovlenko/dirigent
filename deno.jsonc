@@ -1,0 +1,12 @@
+{
+  "lint": {
+    "rules": {
+      "include": [
+        "no-inferrable-types",
+        "explicit-function-return-type",
+        "eqeqeq",
+        "no-await-in-loop"
+      ]
+    }
+  }
+}
