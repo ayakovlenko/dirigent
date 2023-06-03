@@ -38,3 +38,51 @@ a controlled and safe manner. Each step gets a frozen copy of the current state,
 which it can use to produce a new state without affecting the old one. This
 could be used, for example, in a state machine or game engine where each step
 represents a game tick, player action, or AI decision.
+
+## Example
+
+```ts
+const initialState: State = {
+  history: [],
+};
+
+const steps = [
+  new StepSequence<State>([
+    new AppendStep(1),
+    new StepSequence<State>([
+      new AppendStep(2),
+      new AppendStep(3),
+      new AppendStep(4),
+    ]),
+    new AppendStep(5),
+  ]),
+];
+
+const newState = await stepLoop(steps, initialState);
+
+assertEquals(newState.history, [1, 2, 3, 4, 5]);
+```
+
+Firstly, a new type `State` is defined. This state is an object that holds a
+single property: `history` which is an array of numbers.
+
+Next, a new class `AppendStep` implementing the `Step` interface is defined.
+`AppendStep` essentially represents a step in the process that appends a number
+to the `history` array. It does this in a non-mutative way, by creating a deep
+clone of the current state, modifying this clone, and then returning it.
+
+Finally, a test case is defined to check whether the step-based logic works as
+expected. In the test, an initial state is defined with an empty `history`
+array. A sequence of steps is then created. This sequence includes a mix of
+individual `AppendStep` instances and nested `StepSequence` instances, mimicking
+a complex scenario.
+
+The `stepLoop` function is called with this array of steps and the initial
+state. The `stepLoop` function executes each step in order, each time passing
+the newly returned state into the next step. The result is a final state that
+has passed through all the steps.
+
+The test then verifies that the `history` property of the final state matches
+the expected sequence of numbers, `[1, 2, 3, 4, 5]`. If the `history` array is
+as expected, it means that all the steps have been executed correctly in the
+correct order.
