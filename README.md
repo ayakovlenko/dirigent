@@ -2,9 +2,25 @@
 
 _ChatGPT-generated readme_
 
-The provided code is written in TypeScript, a statically typed superset of
-JavaScript. This code defines a series of constructs related to the concept of a
-'Step', which is an operation that transforms a state `S` in some way.
+The term "dirigent" is derived from the Latin word "dirigere," which means "to
+guide" or "to direct". In music, a "dirigent" is another term for a conductor,
+the individual who guides and directs an orchestra or choir during a
+performance. They ensure that all parts of the ensemble play together in
+harmony, keeping to the correct tempo and dynamics, and making sure each section
+comes in or stops at the right times.
+
+This tool is a system that orchestrates the execution of a series of steps or
+operations, ensuring they are performed in the correct sequence. Just like a
+musical conductor, it manages the flow and progression of state through a series
+of transformations (steps), and makes sure each step receives the correct input
+(the current state) and passes its output (the new state) to the next step in
+sequence.
+
+---
+
+The provided code is written in TypeScript. This code defines a series of
+constructs related to the concept of a 'Step', which is an operation that
+transforms a state `S` in some way.
 
 Here's a detailed breakdown:
 
@@ -33,8 +49,8 @@ Here's a detailed breakdown:
    converting it to a JSON string and then parsing it back to an object. This
    creates a new copy of the object that shares no references with the original.
 
-The overall purpose of this code seems to be to execute a sequence of 'steps' in
-a controlled and safe manner. Each step gets a frozen copy of the current state,
+The overall purpose of this code is to execute a sequence of 'steps' in a
+controlled and safe manner. Each step gets a frozen copy of the current state,
 which it can use to produce a new state without affecting the old one. This
 could be used, for example, in a state machine or game engine where each step
 represents a game tick, player action, or AI decision.
