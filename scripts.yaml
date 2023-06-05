@@ -1,7 +1,7 @@
 scripts:
-  go: |
-    deno run src/cli.ts
-  install: |
-    deno install -f --name="dirigent" src/cli.ts
-  check: deno check src/cli.ts
-  cache: deno cache src/deps.ts src/deps_test.ts
+  start: |
+    deno run modules/cli/main.ts
+  test: |
+    deno test
+  fences: |
+    fences1 check

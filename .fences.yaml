@@ -1,0 +1,17 @@
+path: modules/
+
+modules:
+  - name: core
+    exposes:
+      - mod.ts
+    dependsOn:
+      - util
+
+  - name: cli
+    dependsOn:
+      - core
+      - util
+
+  - name: util
+    exposes:
+      - mod.ts
