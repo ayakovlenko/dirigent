@@ -16,6 +16,21 @@ of transformations (steps), and makes sure each step receives the correct input
 (the current state) and passes its output (the new state) to the next step in
 sequence.
 
+```mermaid
+stateDiagram-v2
+    state "core" as s0
+    state "cli" as s1
+    state "util" as s2
+    state "persistence/core" as s3
+    state "persistence/postgres" as s4
+
+    s0 --> s2
+    s1 --> s0
+    s1 --> s2
+    s3 --> s0
+    s4 --> s3
+```
+
 ---
 
 The provided code is written in TypeScript. This code defines a series of

@@ -15,3 +15,15 @@ modules:
   - name: util
     exposes:
       - mod.ts
+
+  - name: persistence/core
+    exposes:
+      - mod.ts
+    dependsOn:
+      - core
+
+  - name: persistence/postgres
+    exposes:
+      - mod.ts
+    dependsOn:
+      - persistence/core
