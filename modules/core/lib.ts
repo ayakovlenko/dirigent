@@ -1,5 +1,3 @@
-import { deepFreeze } from "../util/mod.ts";
-
 interface Step<S> {
   execute(state: S): S | PromiseLike<S>;
 }
@@ -24,5 +22,16 @@ async function stepLoop<S>(steps: Step<S>[], state: S): Promise<S> {
   }
   return state;
 }
+
+// deno-lint-ignore no-explicit-any
+const deepFreeze = (obj: any) => {
+  // ref: https://decipher.dev/30-seconds-of-typescript/docs/deepFreeze/
+  for (const prop of Object.keys(obj)) {
+    if (typeof obj[prop] === "object" && !Object.isFrozen(obj[prop])) {
+      deepFreeze(obj[prop]);
+    }
+  }
+  return Object.freeze(obj);
+};
 
 export { stepLoop };
