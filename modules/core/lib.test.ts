@@ -1,5 +1,6 @@
+import { deepClone } from "../util/mod.ts";
 import { assertEquals } from "./deps_test.ts";
-import { deepClone, Step, stepLoop, StepSequence } from "./lib.ts";
+import { Step, stepLoop, StepSequence } from "./lib.ts";
 
 type State = {
   history: number[];
