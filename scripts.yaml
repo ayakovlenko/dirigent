@@ -1,6 +1,6 @@
 scripts:
-  start: |
-    deno run modules/cli/main.ts
+  example: |
+    deno run examples/example-01/main.ts
   test: |
     deno test
   fences: |

@@ -7,11 +7,6 @@ modules:
     dependsOn:
       - util
 
-  - name: cli
-    dependsOn:
-      - core
-      - util
-
   - name: util
     exposes:
       - mod.ts

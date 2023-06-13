@@ -1,5 +1,5 @@
-import { Step, stepLoop, StepSequence } from "../core/mod.ts";
-import { deepClone } from "../util/mod.ts";
+import { Step, stepLoop, StepSequence } from "../../modules/core/mod.ts";
+import { deepClone } from "../../modules/util/mod.ts";
 
 type State = {
   history: number[];
