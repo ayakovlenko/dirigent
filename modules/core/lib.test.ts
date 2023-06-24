@@ -1,16 +1,17 @@
 import { deepClone } from "../util/mod.ts";
 import { assertEquals } from "./deps_test.ts";
-import { Step, stepLoop, StepSequence } from "./lib.ts";
+import { Step, StepSequence } from "./lib.ts";
 
 type State = {
   history: number[];
 };
 
-class AppendStep implements Step<State> {
+class AppendStep extends Step<State> {
   constructor(private x: number) {
+    super();
   }
 
-  execute(state: State): State | PromiseLike<State> {
+  onRun(state: State): State | PromiseLike<State> {
     const newState: State = deepClone(state);
     newState.history.push(this.x);
     return newState;
@@ -22,7 +23,7 @@ Deno.test("stepLoop propagates the state", async () => {
     history: [],
   };
 
-  const steps = [
+  const steps =
     new StepSequence<State>([
       new AppendStep(1),
       new StepSequence<State>([
@@ -31,10 +32,9 @@ Deno.test("stepLoop propagates the state", async () => {
         new AppendStep(4),
       ]),
       new AppendStep(5),
-    ]),
-  ];
+    ])
 
-  const newState = await stepLoop(steps, initialState);
+  const newState = await steps.execute(initialState);
 
   assertEquals(newState.history, [1, 2, 3, 4, 5]);
 });

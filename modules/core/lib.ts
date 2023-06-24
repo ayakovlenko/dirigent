@@ -1,22 +1,29 @@
-interface Step<S> {
-  execute(state: S): S | PromiseLike<S>;
+abstract class Step<S> {
+  //
+
+  execute(oldState: S): S | PromiseLike<S> {
+    oldState = deepFreeze(oldState);
+
+    return this.onRun(oldState);
+  }
+
+  abstract onRun(oldState: S): S | PromiseLike<S>;
 }
 
-export type { Step };
+class StepSequence<S> extends Step<S> {
+  //
 
-class StepSequence<S> implements Step<S> {
-  constructor(private steps: Step<S>[]) {}
+  constructor(private steps: Step<S>[]) {
+    super();
+  }
 
-  async execute(state: S): Promise<S> {
-    return await stepLoop(this.steps, state);
+  onRun(oldState: S): S | PromiseLike<S> {
+    return stepLoop(this.steps, oldState);
   }
 }
 
-export { StepSequence };
-
 async function stepLoop<S>(steps: Step<S>[], state: S): Promise<S> {
   for (const step of steps) {
-    state = deepFreeze(state);
     // deno-lint-ignore no-await-in-loop
     state = await step.execute(state);
   }
@@ -34,4 +41,4 @@ const deepFreeze = (obj: any) => {
   return Object.freeze(obj);
 };
 
-export { stepLoop };
+export { Step, StepSequence };

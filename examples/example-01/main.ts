@@ -20,7 +20,7 @@ const initialState: State = {
   history: [],
 };
 
-const steps = [
+const steps =
   new StepSequence<State>([
     new AppendStep(1),
     new StepSequence<State>([
@@ -29,9 +29,8 @@ const steps = [
       new AppendStep(4),
     ]),
     new AppendStep(5),
-  ]),
-];
+  ]);
 
-const newState = await stepLoop(steps, initialState);
+const newState = await steps.execute(initialState);
 
 console.log(newState);
