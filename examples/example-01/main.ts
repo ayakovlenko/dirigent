@@ -10,10 +10,15 @@ class AppendStep extends Step<State> {
     super();
   }
 
-  onRun(oldState: State): State {
+  override onRun(oldState: State): State {
     const newState: State = deepClone(oldState);
     newState.history.push(this.x);
     return newState;
+  }
+
+  override onStateChanged(oldState: State, newState: State): void {
+    console.table({ oldState, newState });
+    return;
   }
 }
 

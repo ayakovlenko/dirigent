@@ -1,11 +1,16 @@
 path: modules/
 
 modules:
+  - name: lib/json-equal
+    exposes:
+      - mod.ts
+
   - name: core
     exposes:
       - mod.ts
     dependsOn:
       - util
+      - lib/json-equal
 
   - name: util
     exposes:
@@ -18,6 +23,12 @@ modules:
       - core
 
   - name: persistence/postgres
+    exposes:
+      - mod.ts
+    dependsOn:
+      - persistence/core
+
+  - name: persistence/fs
     exposes:
       - mod.ts
     dependsOn:

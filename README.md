@@ -18,14 +18,18 @@ sequence.
 
 ```mermaid
 stateDiagram-v2
-    state "core" as s0
-    state "util" as s1
-    state "persistence/core" as s2
-    state "persistence/postgres" as s3
+    state "lib/json-equal" as s0
+    state "core" as s1
+    state "util" as s2
+    state "persistence/core" as s3
+    state "persistence/postgres" as s4
+    state "persistence/fs" as s5
 
-    s0 --> s1
-    s2 --> s0
-    s3 --> s2
+    s1 --> s2
+    s1 --> s0
+    s3 --> s1
+    s4 --> s3
+    s5 --> s3
 ```
 
 ---
@@ -69,21 +73,28 @@ represents a game tick, player action, or AI decision.
 
 ## Example
 
+To run example:
+
+```sh
+vr example
+```
+
+Sample code:
+
 ```ts
 const initialState: State = {
   history: [],
 };
 
-const steps =
+const steps = new StepSequence<State>([
+  new AppendStep(1),
   new StepSequence<State>([
-    new AppendStep(1),
-    new StepSequence<State>([
-      new AppendStep(2),
-      new AppendStep(3),
-      new AppendStep(4),
-    ]),
-    new AppendStep(5),
-  ]);
+    new AppendStep(2),
+    new AppendStep(3),
+    new AppendStep(4),
+  ]),
+  new AppendStep(5),
+]);
 
 const newState = await steps.execute(initialState);
 
