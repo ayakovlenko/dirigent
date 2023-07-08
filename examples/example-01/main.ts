@@ -1,5 +1,4 @@
 import { Step, StepSequence } from "../../modules/core/mod.ts";
-import { deepClone } from "../../modules/util/mod.ts";
 
 type State = {
   history: number[];
@@ -11,7 +10,7 @@ class AppendStep extends Step<State> {
   }
 
   override onRun(oldState: State): State {
-    const newState: State = deepClone(oldState);
+    const newState: State = oldState;
     newState.history.push(this.x);
     return newState;
   }
