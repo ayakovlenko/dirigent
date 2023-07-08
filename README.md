@@ -21,15 +21,11 @@ stateDiagram-v2
     state "lib/json-equal" as s0
     state "core" as s1
     state "util" as s2
-    state "persistence/core" as s3
-    state "persistence/postgres" as s4
-    state "persistence/fs" as s5
+    state "persistence/fs" as s3
 
     s1 --> s2
     s1 --> s0
     s3 --> s1
-    s4 --> s3
-    s5 --> s3
 ```
 
 ---
@@ -71,12 +67,12 @@ which it can use to produce a new state without affecting the old one. This
 could be used, for example, in a state machine or game engine where each step
 represents a game tick, player action, or AI decision.
 
-## Example
+## Example 1
 
 To run example:
 
 ```sh
-vr example
+vr example-01
 ```
 
 Sample code:
@@ -124,3 +120,23 @@ The test then verifies that the `history` property of the final state matches
 the expected sequence of numbers, `[1, 2, 3, 4, 5]`. If the `history` array is
 as expected, it means that all the steps have been executed correctly in the
 correct order.
+
+## Example 2 (plain file persistence)
+
+```sh
+vr example-02
+
+cat /tmp/state.json | jq '.'
+```
+
+```json
+{
+  "history": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ]
+}
+```

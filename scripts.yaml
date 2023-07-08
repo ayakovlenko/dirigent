@@ -1,6 +1,10 @@
 scripts:
-  example: |
-    deno run examples/example-01/main.ts
+  example-01: |
+    deno run \
+      examples/example-01/main.ts
+  example-02: |
+    deno run --allow-write="/tmp/state.json" \
+      examples/example-02/main.ts
   test: |
     deno test
   fences: |

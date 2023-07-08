@@ -16,20 +16,8 @@ modules:
     exposes:
       - mod.ts
 
-  - name: persistence/core
-    exposes:
-      - mod.ts
-    dependsOn:
-      - core
-
-  - name: persistence/postgres
-    exposes:
-      - mod.ts
-    dependsOn:
-      - persistence/core
-
   - name: persistence/fs
     exposes:
       - mod.ts
     dependsOn:
-      - persistence/core
+      - core
