@@ -7,7 +7,7 @@ type State = {
 };
 
 class AppendStep extends Step<State> {
-  constructor(private x: number) {
+  constructor(protected x: number) {
     super();
   }
 
@@ -82,5 +82,30 @@ Deno.test("onStateChange", async (t) => {
 
     assertEquals(spy.onStateChangedEntered, false);
     assertEquals(newState.history, []);
+  });
+});
+
+class DedupStep extends AppendStep {
+  constructor(x: number) {
+    super(x);
+  }
+
+  mustRun({ history }: State): boolean {
+    const last = history.at(-1);
+    return last !== this.x;
+  }
+}
+
+Deno.test("mustRun", async (t) => {
+  await t.step("must run again", async () => {
+    const initialState: State = { history: [1] };
+    const newState = await new DedupStep(2).execute(initialState);
+    assertEquals(newState.history, [1, 2]);
+  });
+
+  await t.step("must not run again", async () => {
+    const initialState: State = { history: [1] };
+    const newState = await new DedupStep(1).execute(initialState);
+    assertEquals(newState.history, [1]);
   });
 });

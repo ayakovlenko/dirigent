@@ -1,1 +1,3 @@
 .idea/
+cov_profile/
+*.lcov

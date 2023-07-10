@@ -5,7 +5,13 @@ scripts:
   example-02: |
     deno run --allow-write="/tmp/state.json" \
       examples/example-02/main.ts
-  test: |
-    deno test
   fences: |
     fences1 check
+  test: |
+    deno test
+  test:cov: |
+    set -eax
+    deno test -A --coverage=cov_profile
+    deno coverage cov_profile --lcov --output=cov_profile.lcov
+    genhtml -o cov_profile/html cov_profile.lcov
+    open cov_profile/html/index.html
