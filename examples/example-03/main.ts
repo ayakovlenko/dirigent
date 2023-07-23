@@ -2,21 +2,24 @@ import { Step, StepSequence } from "../../modules/core/mod.ts";
 
 type User = {
   email: string;
-  login: {
-    uuid: string;
-  };
 };
 
-const fetchUsers = async () => {
-  const res = await fetch(
-    "https://randomuser.me/api/?" + new URLSearchParams({
-      results: "10",
-      seed: "dirigent",
-    }),
-  );
-  const { results } = await res.json() as { results: User[] };
-  return results;
-};
+interface UserService {
+  fetchUsers(): PromiseLike<User[]>;
+}
+
+class UserServiceImpl implements UserService {
+  async fetchUsers(): Promise<User[]> {
+    const res = await fetch(
+      "https://randomuser.me/api/?" + new URLSearchParams({
+        results: "10",
+        seed: "dirigent",
+      }),
+    );
+    const { results } = await res.json() as { results: User[] };
+    return results;
+  }
+}
 
 type State = {
   users: User[];
@@ -29,13 +32,16 @@ const initialState: State = {
 };
 
 class GetUsersStep extends Step<State> {
-  constructor() {
+  constructor(private userService: UserService) {
     super();
   }
 
   override async onRun(state: State): Promise<State> {
-    state.users = await fetchUsers();
-    return state;
+    const users = await this.userService.fetchUsers();
+    return {
+      ...state,
+      users,
+    };
   }
 }
 
@@ -63,7 +69,7 @@ class GetEmailsStep extends Step<State> {
 }
 
 const steps = new StepSequence([
-  new GetUsersStep(),
+  new GetUsersStep(new UserServiceImpl()),
   new GetEmailsStep(),
 ]);
 
